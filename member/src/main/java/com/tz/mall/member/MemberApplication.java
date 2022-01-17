@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MemberApplication {
-
+//启动主程序
     public static void main(String[] args) {
         SpringApplication.run(MemberApplication.class, args);
     }
