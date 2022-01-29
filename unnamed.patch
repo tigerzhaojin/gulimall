@@ -1,0 +1,628 @@
+Index: coupon/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- coupon/src/main/resources/application.properties	(date 1639042462946)
++++ coupon/src/main/resources/application.properties	(date 1639042462946)
+@@ -0,0 +1,1 @@
++
+Index: product/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- product/src/main/resources/application.properties	(date 1639041973894)
++++ product/src/main/resources/application.properties	(date 1639041973894)
+@@ -0,0 +1,1 @@
++
+Index: ware/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ware/src/main/resources/application.properties	(date 1639042269599)
++++ ware/src/main/resources/application.properties	(date 1639042269599)
+@@ -0,0 +1,1 @@
++
+Index: order/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- order/src/main/resources/application.properties	(date 1639042340413)
++++ order/src/main/resources/application.properties	(date 1639042340413)
+@@ -0,0 +1,1 @@
++
+Index: member/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- member/src/main/resources/application.properties	(date 1639042405714)
++++ member/src/main/resources/application.properties	(date 1639042405714)
+@@ -0,0 +1,1 @@
++
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(revision c998c1bb622d9fd58ea8fdee88e303e09a68e034)
++++ .gitignore	(date 1639043374930)
+@@ -9,3 +9,11 @@
+ .mvn/timing.properties
+ # https://github.com/takari/maven-wrapper#usage-without-binary-jar
+ .mvn/wrapper/maven-wrapper.jar
++
++
++**/mvnw
++**/mvnw.cmd
++**/.mvn
++**/target/
++.idea
++**/.gitignore
+\ No newline at end of file
+Index: order/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- order/pom.xml	(date 1639042341580)
++++ order/pom.xml	(date 1639042341580)
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>2.6.1</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++    <groupId>com.tz.mall</groupId>
++    <artifactId>order</artifactId>
++    <version>0.0.1-SNAPSHOT</version>
++    <name>order</name>
++    <description>Demo project for Spring Boot</description>
++    <properties>
++        <java.version>1.8</java.version>
++        <spring-cloud.version>2021.0.0</spring-cloud.version>
++    </properties>
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-web</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.cloud</groupId>
++            <artifactId>spring-cloud-starter-openfeign</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++    </dependencies>
++    <dependencyManagement>
++        <dependencies>
++            <dependency>
++                <groupId>org.springframework.cloud</groupId>
++                <artifactId>spring-cloud-dependencies</artifactId>
++                <version>${spring-cloud.version}</version>
++                <type>pom</type>
++                <scope>import</scope>
++            </dependency>
++        </dependencies>
++    </dependencyManagement>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: ware/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ware/pom.xml	(date 1639042271364)
++++ ware/pom.xml	(date 1639042271364)
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>2.6.1</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++    <groupId>com.tz.mall</groupId>
++    <artifactId>ware</artifactId>
++    <version>0.0.1-SNAPSHOT</version>
++    <name>ware</name>
++    <description>Demo project for Spring Boot</description>
++    <properties>
++        <java.version>1.8</java.version>
++        <spring-cloud.version>2021.0.0</spring-cloud.version>
++    </properties>
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-web</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.cloud</groupId>
++            <artifactId>spring-cloud-starter-openfeign</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++    </dependencies>
++    <dependencyManagement>
++        <dependencies>
++            <dependency>
++                <groupId>org.springframework.cloud</groupId>
++                <artifactId>spring-cloud-dependencies</artifactId>
++                <version>${spring-cloud.version}</version>
++                <type>pom</type>
++                <scope>import</scope>
++            </dependency>
++        </dependencies>
++    </dependencyManagement>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: order/src/test/java/com/tz/mall/order/OrderApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- order/src/test/java/com/tz/mall/order/OrderApplicationTests.java	(date 1639042341588)
++++ order/src/test/java/com/tz/mall/order/OrderApplicationTests.java	(date 1639042341588)
+@@ -0,0 +1,13 @@
++package com.tz.mall.order;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class OrderApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(date 1639042777315)
++++ pom.xml	(date 1639042777315)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++
++    <groupId>com.tz.mall</groupId>
++    <artifactId>gulimall</artifactId>
++    <version>0.0.1-SNAPSHOT</version>
++    <name>gulimall</name>
++    <packaging>pom</packaging>
++    <modules>
++        <module>coupon</module>
++        <module>member</module>
++        <module>order</module>
++        <module>product</module>
++        <module>ware</module>
++    </modules>
++
++
++</project>
+Index: member/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- member/pom.xml	(date 1639042406722)
++++ member/pom.xml	(date 1639042406722)
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>2.6.1</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++    <groupId>com.tz.mall</groupId>
++    <artifactId>member</artifactId>
++    <version>0.0.1-SNAPSHOT</version>
++    <name>member</name>
++    <description>Demo project for Spring Boot</description>
++    <properties>
++        <java.version>1.8</java.version>
++        <spring-cloud.version>2021.0.0</spring-cloud.version>
++    </properties>
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-web</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.cloud</groupId>
++            <artifactId>spring-cloud-starter-openfeign</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++    </dependencies>
++    <dependencyManagement>
++        <dependencies>
++            <dependency>
++                <groupId>org.springframework.cloud</groupId>
++                <artifactId>spring-cloud-dependencies</artifactId>
++                <version>${spring-cloud.version}</version>
++                <type>pom</type>
++                <scope>import</scope>
++            </dependency>
++        </dependencies>
++    </dependencyManagement>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: coupon/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- coupon/pom.xml	(date 1639042464370)
++++ coupon/pom.xml	(date 1639042464370)
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>2.6.1</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++    <groupId>com.tz.mall</groupId>
++    <artifactId>coupon</artifactId>
++    <version>0.0.1-SNAPSHOT</version>
++    <name>coupon</name>
++    <description>Demo project for Spring Boot</description>
++    <properties>
++        <java.version>1.8</java.version>
++        <spring-cloud.version>2021.0.0</spring-cloud.version>
++    </properties>
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-web</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.cloud</groupId>
++            <artifactId>spring-cloud-starter-openfeign</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++    </dependencies>
++    <dependencyManagement>
++        <dependencies>
++            <dependency>
++                <groupId>org.springframework.cloud</groupId>
++                <artifactId>spring-cloud-dependencies</artifactId>
++                <version>${spring-cloud.version}</version>
++                <type>pom</type>
++                <scope>import</scope>
++            </dependency>
++        </dependencies>
++    </dependencyManagement>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: product/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- product/pom.xml	(date 1639041978170)
++++ product/pom.xml	(date 1639041978170)
+@@ -0,0 +1,57 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <parent>
++        <groupId>org.springframework.boot</groupId>
++        <artifactId>spring-boot-starter-parent</artifactId>
++        <version>2.6.1</version>
++        <relativePath/> <!-- lookup parent from repository -->
++    </parent>
++    <groupId>com.tz.mall</groupId>
++    <artifactId>product</artifactId>
++    <version>0.0.1-SNAPSHOT</version>
++    <name>product</name>
++    <description>Demo project for Spring Boot</description>
++    <properties>
++        <java.version>1.8</java.version>
++        <spring-cloud.version>2021.0.0</spring-cloud.version>
++    </properties>
++    <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-web</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.cloud</groupId>
++            <artifactId>spring-cloud-starter-openfeign</artifactId>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-test</artifactId>
++            <scope>test</scope>
++        </dependency>
++    </dependencies>
++    <dependencyManagement>
++        <dependencies>
++            <dependency>
++                <groupId>org.springframework.cloud</groupId>
++                <artifactId>spring-cloud-dependencies</artifactId>
++                <version>${spring-cloud.version}</version>
++                <type>pom</type>
++                <scope>import</scope>
++            </dependency>
++        </dependencies>
++    </dependencyManagement>
++
++    <build>
++        <plugins>
++            <plugin>
++                <groupId>org.springframework.boot</groupId>
++                <artifactId>spring-boot-maven-plugin</artifactId>
++            </plugin>
++        </plugins>
++    </build>
++
++</project>
+Index: coupon/src/main/java/com/tz/mall/coupon/CouponApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- coupon/src/main/java/com/tz/mall/coupon/CouponApplication.java	(date 1639042464377)
++++ coupon/src/main/java/com/tz/mall/coupon/CouponApplication.java	(date 1639042464377)
+@@ -0,0 +1,13 @@
++package com.tz.mall.coupon;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class CouponApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(CouponApplication.class, args);
++    }
++
++}
+Index: product/src/main/java/com/tz/mall/product/ProductApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- product/src/main/java/com/tz/mall/product/ProductApplication.java	(date 1639041978196)
++++ product/src/main/java/com/tz/mall/product/ProductApplication.java	(date 1639041978196)
+@@ -0,0 +1,13 @@
++package com.tz.mall.product;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class ProductApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(ProductApplication.class, args);
++    }
++
++}
+Index: ware/src/test/java/com/tz/mall/ware/WareApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ware/src/test/java/com/tz/mall/ware/WareApplicationTests.java	(date 1639042271353)
++++ ware/src/test/java/com/tz/mall/ware/WareApplicationTests.java	(date 1639042271353)
+@@ -0,0 +1,13 @@
++package com.tz.mall.ware;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class WareApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: ware/src/main/java/com/tz/mall/ware/WareApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ware/src/main/java/com/tz/mall/ware/WareApplication.java	(date 1639042271347)
++++ ware/src/main/java/com/tz/mall/ware/WareApplication.java	(date 1639042271347)
+@@ -0,0 +1,13 @@
++package com.tz.mall.ware;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class WareApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(WareApplication.class, args);
++    }
++
++}
+Index: member/src/test/java/com/tz/mall/member/MemberApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- member/src/test/java/com/tz/mall/member/MemberApplicationTests.java	(date 1639042406716)
++++ member/src/test/java/com/tz/mall/member/MemberApplicationTests.java	(date 1639042406716)
+@@ -0,0 +1,13 @@
++package com.tz.mall.member;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class MemberApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: order/src/main/java/com/tz/mall/order/OrderApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- order/src/main/java/com/tz/mall/order/OrderApplication.java	(date 1639042341585)
++++ order/src/main/java/com/tz/mall/order/OrderApplication.java	(date 1639042341585)
+@@ -0,0 +1,13 @@
++package com.tz.mall.order;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class OrderApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(OrderApplication.class, args);
++    }
++
++}
+Index: coupon/src/test/java/com/tz/mall/coupon/CouponApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- coupon/src/test/java/com/tz/mall/coupon/CouponApplicationTests.java	(date 1639042464355)
++++ coupon/src/test/java/com/tz/mall/coupon/CouponApplicationTests.java	(date 1639042464355)
+@@ -0,0 +1,13 @@
++package com.tz.mall.coupon;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class CouponApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
+Index: member/src/main/java/com/tz/mall/member/MemberApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- member/src/main/java/com/tz/mall/member/MemberApplication.java	(date 1639042406718)
++++ member/src/main/java/com/tz/mall/member/MemberApplication.java	(date 1639042406718)
+@@ -0,0 +1,13 @@
++package com.tz.mall.member;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class MemberApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(MemberApplication.class, args);
++    }
++
++}
+Index: product/src/test/java/com/tz/mall/product/ProductApplicationTests.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- product/src/test/java/com/tz/mall/product/ProductApplicationTests.java	(date 1639041978191)
++++ product/src/test/java/com/tz/mall/product/ProductApplicationTests.java	(date 1639041978191)
+@@ -0,0 +1,13 @@
++package com.tz.mall.product;
++
++import org.junit.jupiter.api.Test;
++import org.springframework.boot.test.context.SpringBootTest;
++
++@SpringBootTest
++class ProductApplicationTests {
++
++    @Test
++    void contextLoads() {
++    }
++
++}
