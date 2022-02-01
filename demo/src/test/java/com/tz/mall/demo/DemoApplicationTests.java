@@ -1,11 +1,10 @@
-package com.tz.mall.member;
+package com.tz.mall.demo;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MemberApplicationTests {
+class DemoApplicationTests {
 
     @Test
     void contextLoads() {

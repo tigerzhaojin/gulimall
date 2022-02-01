@@ -53,6 +53,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         return rootEntities;
     }
+
+    @Override
+    public void removeMenuByIds(List<Long> asList) {
+//        TODO
+        System.out.println("正在进行逻辑删除");
+        baseMapper.deleteBatchIds(asList);
+    }
+
     /**
      * 获取子节点
      *
@@ -82,10 +90,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return childList;
     }
 
-    public List<CategoryEntity> getChildren (CategoryEntity root,List<CategoryEntity> allMenu){
-
-        return null;
-    }
+//    public List<CategoryEntity> getChildren (CategoryEntity root,List<CategoryEntity> allMenu){
+//
+//        return null;
+//    }
 
 
 
