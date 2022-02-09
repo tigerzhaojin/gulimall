@@ -1,22 +1,28 @@
 package com.tz.mall.product;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tz.mall.product.entity.BrandEntity;
 import com.tz.mall.product.service.BrandService;
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class ProductApplicationTests {
+public class ProductApplicationTests {
     @Resource
     BrandService brandService;
+
     @Test
-    void contextLoads() {
+    public void contextLoads() {
         BrandEntity brandEntity=new BrandEntity();
 //        brandEntity.setDescript("大家好");
 //        brandEntity.setName("Iphone");

@@ -73,6 +73,12 @@ public class CategoryController {
         return R.ok();
     }
 
+    @RequestMapping("/update/tree")
+    public R updateTree(@RequestBody CategoryEntity[] categorys){
+        categoryService.updateBatchById(Arrays.asList(categorys));
+
+        return R.ok();
+    }
     /**
      * 删除
      */

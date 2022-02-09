@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -36,23 +37,37 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public List<CategoryEntity> listWithTree() {
 //        查出所有的分类信息
         List<CategoryEntity> entities = baseMapper.selectList(null);
-//        查出所有的根节点集合
-        List<CategoryEntity> rootEntities=new ArrayList<>();
-        for (CategoryEntity entity : entities){
-            if (entity.getParentCid()==0L) {
-                rootEntities.add(entity);
-            }
-        }
-        /* 根据Menu类的order排序 */
-        //Collections.sort(rootMenu, order());
-        //为根菜单设置子菜单，getClild是递归调用的
-        for (CategoryEntity entity : rootEntities){
-            List<CategoryEntity> childEitities=getChild(String.valueOf(entity.getCatId()) ,entities);
-            entity.setChildren(childEitities);
-        }
+        List<CategoryEntity> level1Menus = entities.stream().filter(categoryEntity ->
+                //标识为0
+                categoryEntity.getParentCid() == 0
+        ).map((menu) -> {
+            menu.setChildren(getChildren(menu, entities));
+            return menu;
+        }).sorted((menu1, menu2) -> {
+            return (menu1.getSort() == null ? 0 : menu1.getSort()) - (menu2.getSort() == null ? 0 : menu2.getSort());
+        }).collect(Collectors.toList());
+        return level1Menus;
 
-        return rootEntities;
+
+        /* ～～～～～～～～～～～～～～～～旧写法～～～～～～～～～～～～～～～～～～～*/
+////        查出所有的根节点集合
+//        List<CategoryEntity> rootEntities=new ArrayList<>();
+//        for (CategoryEntity entity : entities){
+//            if (entity.getParentCid()==0L) {
+//                rootEntities.add(entity);
+//            }
+//        }
+//        /* 根据Menu类的order排序 */
+//        //Collections.sort(rootMenu, order());
+//        //为根菜单设置子菜单，getClild是递归调用的
+//        for (CategoryEntity entity : rootEntities){
+//            List<CategoryEntity> childEitities=getChild(String.valueOf(entity.getCatId()) ,entities);
+//            entity.setChildren(childEitities);
+//        }
+//        return rootEntities;
+//        /* ～～～～～～～～～～～～～～～～旧写法结束～～～～～～～～～～～～～～～～～～～*/
     }
+//
 
     @Override
     public void removeMenuByIds(List<Long> asList) {
@@ -90,11 +105,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return childList;
     }
 
-//    public List<CategoryEntity> getChildren (CategoryEntity root,List<CategoryEntity> allMenu){
-//
-//        return null;
-//    }
+    private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
 
+        List<CategoryEntity> children = all.stream().filter(categoryEntity ->
+             root.getCatId().equals(categoryEntity.getParentCid())
+//            return root.getCatId()==categoryEntity.getCatId();
+        ).map(categoryEntity -> {
+            //找到子菜单
+            categoryEntity.setChildren(getChildren(categoryEntity, all));
+            return categoryEntity;
+        }).sorted((menu1, menu2) -> {
+            //菜单排序
+            return (menu1.getSort() == null ? 0 : menu1.getSort()) - (menu2.getSort() == null ? 0 : menu2.getSort());
+        }).collect(Collectors.toList());
+        return children;
+    }
 
 
 }
