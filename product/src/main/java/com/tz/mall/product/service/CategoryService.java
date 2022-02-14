@@ -21,6 +21,11 @@ public interface CategoryService extends IService<CategoryEntity> {
     public List<CategoryEntity> listWithTree();
 
     void removeMenuByIds(List<Long> asList);
+//找到catelogId对应的完整路径
+    public Long[] findCatlogPath(Long catelogId);
+
+    public void updateByIdwithCascade(CategoryEntity category);
+
 }
 
 

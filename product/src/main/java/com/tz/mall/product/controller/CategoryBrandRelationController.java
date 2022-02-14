@@ -1,14 +1,16 @@
 package com.tz.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.tz.mall.product.entity.BrandEntity;
+import com.tz.mall.product.service.BrandService;
+import com.tz.mall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tz.mall.product.entity.CategoryBrandRelationEntity;
 import com.tz.mall.product.service.CategoryBrandRelationService;
@@ -29,6 +31,19 @@ import com.tz.common.utils.R;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private CategoryService categoryService;
+//获取品牌关联的分类
+    @GetMapping(value = "/catelog/list")
+    public R catelogList(@RequestParam("brandId") Long brandId){
+        List<CategoryBrandRelationEntity> data= categoryBrandRelationService.list
+                (new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId));
+        return R.ok().put("data",data);
+    }
 
     /**
      * 列表
@@ -56,8 +71,13 @@ public class CategoryBrandRelationController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
-
+//        String brandName =brandService.getById(categoryBrandRelation.getBrandId()).getName();
+//
+//        String cateName = categoryService.getById(categoryBrandRelation.getCatelogId()).getName();
+//        categoryBrandRelation.setCatelogName(cateName);
+//        categoryBrandRelation.setBrandName(brandName);
+//        categoryBrandRelationService.save(categoryBrandRelation);
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
         return R.ok();
     }
 

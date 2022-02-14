@@ -1,12 +1,11 @@
 package com.tz.mall.product.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
+import com.tz.mall.product.entity.CategoryBrandRelationEntity;
+import com.tz.mall.product.service.CategoryBrandRelationService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,11 +17,15 @@ import com.tz.common.utils.Query;
 import com.tz.mall.product.dao.CategoryDao;
 import com.tz.mall.product.entity.CategoryEntity;
 import com.tz.mall.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
-
+    @Resource
+    CategoryBrandRelationService categoryBrandRelationService;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
@@ -75,6 +78,33 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         System.out.println("正在进行逻辑删除");
         baseMapper.deleteBatchIds(asList);
     }
+
+    @Override
+    public Long[] findCatlogPath(Long catelogId) {
+        List<Long> path =new ArrayList<>();
+        List<Long> parentPath = findParentId(catelogId, path);
+        Collections.reverse(parentPath);
+        return parentPath.toArray(new Long[parentPath.size()]);
+    }
+//更新category同时，更新关联表pms_category_brand_relation里的数据
+    @Transactional
+    @Override
+    public void updateByIdwithCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCatetory(category.getCatId(),category.getName());
+
+
+    }
+
+    private List<Long> findParentId(Long catelogId,List<Long> path){
+        path.add(catelogId);
+        CategoryEntity categoryEntity=this.getById(catelogId);
+        if (categoryEntity.getParentCid()!=0){
+            findParentId(categoryEntity.getParentCid(),path);
+        }
+        return  path;
+    }
+
 
     /**
      * 获取子节点
