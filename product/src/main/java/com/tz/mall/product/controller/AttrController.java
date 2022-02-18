@@ -33,12 +33,17 @@ public class AttrController {
     private AttrService attrService;
 
 
-    @RequestMapping("/base/list/{catId}")
+    @RequestMapping("/{attrType}/list/{catId}")
     public R baseList (@PathVariable("catId") long catId,
-                       @RequestParam Map<String,Object> params){
-        PageUtils page = attrService.queryBaseAttrPage(catId,params);
+                       @RequestParam Map<String,Object> params,
+                       @PathVariable("attrType") String attrType){
+
+        PageUtils page = attrService.queryBaseAttrPage(catId,params,attrType);
+
         return R.ok().put("page", page);
     }
+
+
     /**
      * 列表
      */
@@ -75,8 +80,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attrVo){
+		attrService.updateAttrWithVo(attrVo);
 
         return R.ok();
     }

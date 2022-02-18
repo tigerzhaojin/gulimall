@@ -37,6 +37,14 @@ public class CategoryBrandRelationController {
 
     @Autowired
     private CategoryService categoryService;
+//    获取分类关联的品牌/product/categorybrandrelation/brands/list
+    @GetMapping(value ="/brands/list")
+    public R brandsList(@RequestParam("catId") Long catId){
+
+        List<CategoryBrandRelationEntity> entities = categoryBrandRelationService.getBrandsByCatid(catId);
+        return R.ok().put("data",entities);
+
+    }
 //获取品牌关联的分类
     @GetMapping(value = "/catelog/list")
     public R catelogList(@RequestParam("brandId") Long brandId){

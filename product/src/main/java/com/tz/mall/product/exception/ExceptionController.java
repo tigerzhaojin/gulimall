@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Slf4j
 @ResponseBody
-@ControllerAdvice(basePackages = "com.tz.mall.product.controller")
+//@ControllerAdvice(basePackages = "com.tz.mall.product.controller")
 public class ExceptionController {
 //    注解开启处理异常
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

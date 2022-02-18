@@ -4,6 +4,8 @@ import com.tz.mall.product.dao.BrandDao;
 import com.tz.mall.product.dao.CategoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -47,6 +49,12 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void updateCatetory(Long catId, String name) {
         this.baseMapper.updateCatetory(catId,name);
+    }
+
+    @Override
+    public List<CategoryBrandRelationEntity> getBrandsByCatid(Long catId) {
+        QueryWrapper<CategoryBrandRelationEntity> catlog_id = new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId);
+        return this.list(catlog_id);
     }
 
 }
