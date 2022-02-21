@@ -1,16 +1,15 @@
 package com.tz.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.tz.mall.product.entity.ProductAttrValueEntity;
+import com.tz.mall.product.service.ProductAttrValueService;
 import com.tz.mall.product.vo.AttrRespVo;
 import com.tz.mall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tz.mall.product.entity.AttrEntity;
 import com.tz.mall.product.service.AttrService;
@@ -31,6 +30,15 @@ import com.tz.common.utils.R;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+    @Autowired
+    ProductAttrValueService attrValueService;
+
+//    /product/attr/base/listforspu/{spuId}
+    @RequestMapping(value ="base/listforspu/{spuId}" )
+    public R listforSpu(@PathVariable ("spuId") Long spuId){
+       List<ProductAttrValueEntity> entities= attrValueService.listforSpu(spuId);
+       return R.ok().put("data",entities);
+    }
 
 
     @RequestMapping("/{attrType}/list/{catId}")
@@ -86,6 +94,14 @@ public class AttrController {
         return R.ok();
     }
 
+//    /product/attr/update/{spuId}
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities){
+        attrValueService.updateSpuAttr(spuId,entities);
+
+        return R.ok();
+    }
     /**
      * 删除
      */
