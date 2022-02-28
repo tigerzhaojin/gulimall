@@ -26,6 +26,8 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     public void updateByIdwithCascade(CategoryEntity category);
 
+    List<CategoryEntity> getTopLevelCats();
+
 }
 
 

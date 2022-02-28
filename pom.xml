@@ -15,8 +15,9 @@
         <module>product</module>
         <module>ware</module>
         <module>renren-fast-master</module>
-        <module>renren-generator</module>
+<!--        <module>renren-generator</module>-->
         <module>common</module>
+        <module>search</module>
     </modules>
 
 

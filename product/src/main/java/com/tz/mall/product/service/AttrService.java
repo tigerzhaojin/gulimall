@@ -37,5 +37,7 @@ public interface AttrService extends IService<AttrEntity> {
 
     PageUtils getNoRelationAttr(Long attrgroupId, Map<String, Object> params);
 
+    List<Long> selectSearchAttrs(List<Long> attrIds);
+
 }
 

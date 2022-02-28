@@ -1,13 +1,17 @@
 package com.tz.mall.ware.service.impl;
 
+import com.tz.common.to.SkuHasStockTo;
 import com.tz.common.utils.R;
 import com.tz.mall.ware.feign.ProductFeignService;
+import com.tz.mall.ware.vo.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -71,6 +75,20 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuDao.addStock(skuId,wareId,skuNum);
         }
 
+    }
+
+    @Override
+    public List<SkuHasStockTo> getSkuHasStock(List<Long> skuIds) {
+
+        List<SkuHasStockTo> collect = skuIds.stream().map(skuId -> {
+            SkuHasStockTo vo = new SkuHasStockTo();
+//            查询当前sku的总库存量
+            Long count= baseMapper.getSkuStock(skuId);
+            vo.setSkuId(skuId);
+            vo.setHasStock(count==null?false:count>0);
+            return vo;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 }

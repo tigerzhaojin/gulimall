@@ -74,7 +74,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Override
     public void removeMenuByIds(List<Long> asList) {
-//        TODO
+
         System.out.println("正在进行逻辑删除");
         baseMapper.deleteBatchIds(asList);
     }
@@ -93,6 +93,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         this.updateById(category);
         categoryBrandRelationService.updateCatetory(category.getCatId(),category.getName());
 
+
+    }
+
+    @Override
+    public List<CategoryEntity> getTopLevelCats() {
+
+        return this.list(new QueryWrapper<CategoryEntity>().eq("cat_level",1L));
 
     }
 
