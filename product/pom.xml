@@ -30,6 +30,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.tz.mall</groupId>
+            <artifactId>product</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -52,6 +57,24 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+<!--        引入redis作为缓存-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+<!--                自带的引用会产生内存溢出问题，io.netty.util.internal
+                    组件自身bug，需要排除，引入另一个操作组件.下方的jedis-->
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+<!--        用于替换lettuce-core-->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
         </dependency>
 <!--&lt;!&ndash;阿里云对象存储&ndash;&gt;-->
 <!--        <dependency>-->

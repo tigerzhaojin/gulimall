@@ -17,6 +17,7 @@ public class SkuEsModel {
     private boolean hasStock;
     private Long hotScore;
     private Long brandId;
+//    此处拼错了，后面将错就错
     private Long catalogId;
     private String brandName;
     private String brandImg;

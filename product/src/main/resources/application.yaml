@@ -5,6 +5,19 @@ spring:
       username: root
       password: 123456
       url: jdbc:mysql://101.35.249.158:3306/gulimall_pms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+      filters: stat,wall
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: admin
+      filter:
+        stat: # 对上面filters里面的stat的详细配置
+          slow-sql-millis: 1000
+          logSlowSql: true
+          enabled: true
+        wall:
+          enabled: true
+          config:
   application:
     name: gulimall-product
   cloud:
@@ -22,6 +35,10 @@ spring:
 #  开发期间，将缓存置为false
   thymeleaf:
     cache: false
+  redis:
+    host: 101.35.249.158
+    port: 6379
+    password: Tiger1023
 #sql映射文件
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

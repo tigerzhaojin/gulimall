@@ -1,8 +1,12 @@
 package com.tz.mall.product.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.tz.mall.product.entity.CategoryBrandRelationEntity;
 import com.tz.mall.product.service.CategoryBrandRelationService;
+import com.tz.mall.product.vo.Catelog2Vo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,6 +22,7 @@ import com.tz.mall.product.dao.CategoryDao;
 import com.tz.mall.product.entity.CategoryEntity;
 import com.tz.mall.product.service.CategoryService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -26,6 +31,9 @@ import javax.annotation.Resource;
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
     @Resource
     CategoryBrandRelationService categoryBrandRelationService;
+    @Autowired
+    StringRedisTemplate redisTemplate;
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
@@ -103,6 +111,65 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     }
 
+//    利用redis缓存
+    @Override
+    public Map<String, List<Catelog2Vo>> getCatelogJson() {
+//        1.到redis里查询是否有缓存
+        String catelogJSON = redisTemplate.opsForValue().get("catelogJSON");
+        if (StringUtils.isEmpty(catelogJSON)){
+//            如果没有缓存，则到数据库里取数据，然后在redis里写入缓存
+            Map<String, List<Catelog2Vo>> catelogJsonFromDb = getCatelogJsonFromDb();
+            String jsonString = JSON.toJSONString(catelogJsonFromDb);
+            redisTemplate.opsForValue().set("catelogJSON",jsonString);
+            return catelogJsonFromDb;
+        } else {
+//            如果有，则将json数据凡序列话为对象，然后返回
+            Map<String, List<Catelog2Vo>> result=
+                    JSON.parseObject(catelogJSON,new TypeReference<Map<String, List<Catelog2Vo>>>(){});
+            return result;
+        }
+
+    }
+
+    public Map<String, List<Catelog2Vo>> getCatelogJsonFromDb() {
+//        查出所有category
+        List<CategoryEntity> selectList = baseMapper.selectList(null);
+        List<CategoryEntity> topLevelCats = getParent_cid(selectList,0L);
+        Map<String, List<Catelog2Vo>> parent_id = topLevelCats.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+//            查出每一个二级分类
+            List<CategoryEntity> categoryEntities =
+                    getParent_cid(selectList,v.getCatId());
+            List<Catelog2Vo> catelog2Vos = null;
+            if (categoryEntities != null) {
+                catelog2Vos = categoryEntities.stream().map(l2 -> {
+                    Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString(),null,l2.getCatId().toString(),l2.getName());
+//                  找出当前二级分类的三级分类
+                    List<CategoryEntity> level3Catelogs = getParent_cid(selectList,l2.getCatId());
+                    if (level3Catelogs!=null){
+                        List<Catelog2Vo.Catelog3Vo> collect = level3Catelogs.stream().map(l3 -> {
+                            Catelog2Vo.Catelog3Vo catelog3Vo =
+                                    new Catelog2Vo.Catelog3Vo(l2.getCatId().toString(),l3.getCatId().toString(),l3.getName());
+                            return catelog3Vo;
+                        }).collect(Collectors.toList());
+                        catelog2Vo.setCatalog3List(collect);
+                    }
+                    return catelog2Vo;
+                }).collect(Collectors.toList());
+            }
+            return catelog2Vos;
+        }));
+        return parent_id;
+    }
+
+    private List<CategoryEntity> getParent_cid(List<CategoryEntity> selectList,Long parent_cid) {
+//        return baseMapper.selectList(new QueryWrapper<CategoryEntity>()
+//                .eq("parent_cid", v.getCatId()));
+        List<CategoryEntity> collect = selectList.stream().filter(item -> {
+            return item.getParentCid() == parent_cid;
+        }).collect(Collectors.toList());
+        return collect;
+    }
+
     private List<Long> findParentId(Long catelogId,List<Long> path){
         path.add(catelogId);
         CategoryEntity categoryEntity=this.getById(catelogId);
@@ -130,7 +197,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 childList.add(entity);
             }
         }
-        //递归
+        //recursion
         for (CategoryEntity entity : childList) {
             entity.setChildren(getChild(String.valueOf(entity.getCatId()), allMenu));
         }

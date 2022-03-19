@@ -2,6 +2,7 @@ package com.tz.mall.product;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.tz.common.utils.R;
 import com.tz.mall.product.entity.BrandEntity;
 import com.tz.mall.product.service.BrandService;
 import com.tz.mall.product.service.CategoryService;
@@ -11,12 +12,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,6 +31,18 @@ public class ProductApplicationTests {
 
     @Resource
     CategoryService categoryService;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+//    测试redis
+    @Test
+    public void redisTest(){
+        ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
+        opsForValue.set("hello","Chris_"+ UUID.randomUUID().toString());
+        String hello = opsForValue.get("hello");
+        log.info("之前保存的数据：    "+hello);
+    }
     @Test
     public void contextLoads() {
         BrandEntity brandEntity=new BrandEntity();
@@ -46,4 +63,9 @@ public class ProductApplicationTests {
         log.info("完整路径：{}", Arrays.asList(catlogPath));
     }
 
+    @Test
+    public void testR(){
+        R r = R.ok();
+        System.out.println(r);
+    }
 }
