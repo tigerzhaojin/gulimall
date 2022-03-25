@@ -8,6 +8,13 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <!--解决File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--不再支持源选项 5。请使用 6 或更高版本。 不再支持目标选项 1.5。请使用 1.6 或更高版本-->
+<!--        <maven.compiler.source>1.8</maven.compiler.source>-->
+<!--        <maven.compiler.target>1.8</maven.compiler.target>-->
+    </properties>
 
     <artifactId>common</artifactId>
     <description>每一个微服务的公共依赖、工具类等</description>

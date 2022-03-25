@@ -24,7 +24,7 @@ public class IndexController {
 //        查出一级分类
         List<CategoryEntity> categoryEntities= categoryService.getTopLevelCats();
         model.addAttribute("categorys",categoryEntities);
-        return "/index";
+        return "index";
     }
 
 //    $.getJSON("index/catalog.json",function (data)

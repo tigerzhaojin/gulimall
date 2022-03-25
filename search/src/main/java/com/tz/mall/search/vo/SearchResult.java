@@ -13,7 +13,7 @@ public class SearchResult {
     private Integer pageNum;
     private Long total;
     private Integer totalPages;
-
+    private List<Integer> pageNavs;
     private List<BrandVo> brands;  //当前查询到的结果 所涉及到的所有品牌
     private List<AttrsVo> attrs;  //当前查询到的结果 所涉及到的所有属性
     private List<CatelogVo> catelogs; // 当前查询到的结果 所涉及到的所有分类

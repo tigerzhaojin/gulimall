@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.sun.glass.ui.mac.MacPlatformFactory;
 import com.tz.common.to.es.SkuEsModel;
 import com.tz.common.utils.R;
-import com.tz.mall.product.entity.CategoryEntity;
 import com.tz.mall.search.config.MallElasticSearchConfig;
 import com.tz.mall.search.constant.EsConstant;
 import com.tz.mall.search.feign.ProductFeign;
@@ -31,6 +30,7 @@ import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -199,13 +199,19 @@ public class MallSearchServiceImpl implements MallSearchService {
             for (SearchHit hit : hits.getHits()) {
                 String sourceAsString = hit.getSourceAsString();
                 SkuEsModel esModel = JSON.parseObject(sourceAsString, SkuEsModel.class);
+//                设置高亮
+                if (!StringUtils.isEmpty(param.getKeyword())){
+                    HighlightField skuTitle = hit.getHighlightFields().get("skuTitle");
+                    String s = skuTitle.getFragments()[0].string();
+                    esModel.setSkuTitle(s);
+                }
                 esModels.add(esModel);
             }
         }
         result.setProducts(esModels);
-//~~~~~~~~~~~~~~~~~~当前商品所涉及到的所有属性分类~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~当前商品所涉及到的所有属性~~~~~~~~~~~~~~~~~~~~~~
 
-//~~~~~~~~~~~~~~~~~~当前商品所涉及到的所有品牌分类~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~当前商品所涉及到的所有品牌~~~~~~~~~~~~~~~~~~~~~~
         List<SearchResult.BrandVo> brandVos=new ArrayList<>();
         ParsedLongTerms brand_agg= response.getAggregations().get("brand_agg");
         List<? extends Terms.Bucket> brandBucket = brand_agg.getBuckets();
@@ -219,6 +225,7 @@ public class MallSearchServiceImpl implements MallSearchService {
             brandVo.setBrandImg(brandMap.get("logo").toString());
             brandVos.add(brandVo);
         }
+        result.setBrands(brandVos);
 //~~~~~~~~~~~~~~~~~~当前商品所涉及到的所有分类~~~~~~~~~~~~~~~~~~~~~~
 
         List<SearchResult.CatelogVo> catelogVos=new ArrayList<>();
@@ -242,6 +249,12 @@ public class MallSearchServiceImpl implements MallSearchService {
                 (int)total/EsConstant.PRODUCT_PAGESIZE:(int)total/EsConstant.PRODUCT_PAGESIZE+1;
         result.setTotalPages(totalPages);
         result.setPageNum(param.getPageNum());
+
+        List<Integer> pageNavs=new ArrayList<>();
+        for (int i=1;i<=totalPages;i++){
+            pageNavs.add(i);
+        }
+        result.setPageNavs(pageNavs);
 //  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~设置完毕~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         return result;
     }

@@ -11,7 +11,7 @@ public class SearchParam {
     private String keyword;
     private Long catalog3Id;
     private String sort;   //排序条件
-    private Integer hasStock=1;
+    private Integer hasStock;
     private String skuPrice;
     private List<Long> brandIds;
     private List<String> attrs;

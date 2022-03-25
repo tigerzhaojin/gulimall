@@ -1,7 +1,7 @@
 package com.tz.common.valid;
 /* 自定义字段校验注解*/
 
-import com.sun.istack.internal.NotNull;
+//import com.sun.istack.internal.NotNull;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
