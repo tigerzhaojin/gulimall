@@ -3,13 +3,12 @@ package com.tz.mall.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.tz.common.exception.BizCodeEnume;
+import com.tz.common.to.SocialUserVo;
 import com.tz.mall.member.feign.CouponFeignService;
+import com.tz.mall.member.vo.MemberVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tz.mall.member.entity.MemberEntity;
 import com.tz.mall.member.service.MemberService;
@@ -92,4 +91,28 @@ public class MemberController {
         return R.ok();
     }
 
+    @PostMapping("/login")
+    public R login(@RequestBody MemberVo vo){
+        MemberEntity memberEntity= memberService.login(vo);
+        if (memberEntity!=null){
+            return R.ok().put("data",memberEntity);
+        } else {
+            return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INVALID_EXCEPTION.getCode(),
+                    BizCodeEnume.LOGINACCT_PASSWORD_INVALID_EXCEPTION.getMsg());
+        }
+
+    }
+
+    @PostMapping("/oauth/login")
+    public R login(@RequestBody SocialUserVo.GitVo vo){
+
+        MemberEntity memberEntity= memberService.login(vo);
+        if (memberEntity!=null){
+            return R.ok().put("data",memberEntity);
+        } else {
+            return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INVALID_EXCEPTION.getCode(),
+                    BizCodeEnume.LOGINACCT_PASSWORD_INVALID_EXCEPTION.getMsg());
+        }
+
+    }
 }

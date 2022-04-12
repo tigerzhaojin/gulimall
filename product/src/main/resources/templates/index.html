@@ -22,7 +22,7 @@
       <img src="index/img/top_find_logo.png" alt="">
       <div class="input_find">
         <input type="text" placeholder="卸妆水" />
-        <span style="background: url(../staticindex/img/img_12.png) 0 -1px;"></span>
+        <span style="background: url(../index/img/img_12.png) 0 -1px;"></span>
         <a href="#"><img src="index/img/img_09.png" /></a>
       </div>
     </div>
@@ -52,7 +52,7 @@
         <a href="#" class="img"><img src="index/img/logo.jpg" /></a>
         <b class="header_head_p">
   						<a href="#">
-  							<img src="index/img/img_05.png" style="border-radius: 50%;"/>
+<!--  							<img src="index/img/img_05.png" style="border-radius: 50%;"/>-->
   							<!--<span class="glyphicon glyphicon-map-marker"></span>-->
   							 北京</a>
   						<div class="header_head_p_cs">
@@ -95,10 +95,12 @@
   					</b>
         <ul>
           <li>
-            <a href="/登录页面\index.html">你好，请登录</a>
+            <a th:if="${session.loginUser!=null}">欢迎您：[[${session.loginUser.nickname}]]</a>
+            <a th:if="${session.loginUser==null}"  href="http://auth.gulimall.com/login.html">请登录</a>
+
           </li>
           <li>
-            <a href="/注册页面\index.html" class="li_2">免费注册</a>
+            <a th:if="${session.loginUser==null}" href="http://auth.gulimall.com/reg.html" class="li_2">免费注册</a>
           </li>
           <span>|</span>
           <li>
@@ -113,7 +115,7 @@
     <div class="header_sous">
       <div class="header_form">
         <input id="searchText" type="text" placeholder="" />
-        <span style="background: url(../staticindex/img/img_12.png) 0 -1px;"></span>
+        <span style="background: url(../index/img/img_12.png) 0 -1px;"></span>
         <!--<button><i class="glyphicon"></i></button>-->
         <a href="#" ><img src="index/img/img_09.png" onclick="search()" /></a>
       </div>
@@ -611,7 +613,7 @@
 <script type="text/javascript">
   function search() {
       var keyword=$("#searchText").val()
-      window.location.href="http://127.0.0.1:12000/list.html?keyword="+keyword;
+      window.location.href="http://localhost:88/search/list.html?keyword="+keyword;
   }
 
 </script>
@@ -619,7 +621,7 @@
 <script type="text/javascript" src="index/js/header.js"></script>
 <script type="text/javascript" src="index/js/secend.js"></script>
 <script type="text/javascript" src="index/js/zz.js"></script>
-<script type="text/javascript" src="index/jsindex.js"></script>
+<script type="text/javascript" src="index/js/index.js"></script>
 <script type="text/javascript" src="index/js/left,top.js"></script>
 <script type="text/javascript" src="index/js/catalogLoader.js"></script>
 </html>

@@ -4,8 +4,12 @@ package com.tz.mall.product;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tz.common.utils.R;
 import com.tz.mall.product.entity.BrandEntity;
+import com.tz.mall.product.service.AttrGroupService;
 import com.tz.mall.product.service.BrandService;
 import com.tz.mall.product.service.CategoryService;
+import com.tz.mall.product.service.SkuSaleAttrValueService;
+import com.tz.mall.product.vo.SkuItemSaleAttrVo;
+import com.tz.mall.product.vo.SpuItemAttrGroupVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -34,6 +38,11 @@ public class ProductApplicationTests {
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    AttrGroupService attrGroupService;
+    @Autowired
+    SkuSaleAttrValueService saleAttrValueService;
 
 //    测试redis
     @Test
@@ -67,5 +76,18 @@ public class ProductApplicationTests {
     public void testR(){
         R r = R.ok();
         System.out.println(r);
+    }
+
+    @Test
+    public void getAttrgroupWithattrByGroupId(){
+        List<SpuItemAttrGroupVo> attrGroupVos =
+                attrGroupService.getAttrgroupWithattrByGroupId(9L, 225L);
+        System.out.println(attrGroupVos.toString());
+    }
+
+    @Test
+    public void saleAttrValueService(){
+        List<SkuItemSaleAttrVo> saleAttrVos = saleAttrValueService.getSaleAttrsBySpuId(9L);
+        System.out.println(saleAttrVos.toString());
     }
 }

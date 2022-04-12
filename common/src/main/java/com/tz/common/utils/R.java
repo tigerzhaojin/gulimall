@@ -8,6 +8,7 @@
 
 package com.tz.common.utils;
 
+import lombok.Data;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@Data
 public class R extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
 
@@ -64,5 +66,9 @@ public class R extends HashMap<String, Object> {
 	}
 	public Integer getCode(){
 		return (Integer)this.get("code");
+	}
+
+	public String getMsg(){
+		return (String)this.get("msg");
 	}
 }

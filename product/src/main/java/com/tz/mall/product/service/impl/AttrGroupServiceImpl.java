@@ -4,11 +4,14 @@ package com.tz.mall.product.service.impl;
 import com.tz.mall.product.entity.AttrEntity;
 import com.tz.mall.product.service.AttrService;
 import com.tz.mall.product.vo.AttrGroupWithAttrsVo;
+import com.tz.mall.product.vo.SkuItemVo;
+import com.tz.mall.product.vo.SpuItemAttrGroupVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -77,6 +80,16 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             return attrsVo;
         }).collect(Collectors.toList());
         return collect;
+    }
+/** ~~~~~~~~~~~~~~~~查询所有分组信息，及分组内的属性信息
+ * @return*/
+    @Override
+    public List<SpuItemAttrGroupVo> getAttrgroupWithattrByGroupId(Long skuId, Long catalogId) {
+        List<SpuItemAttrGroupVo> attrGroupVos =new ArrayList<>();
+        AttrGroupDao baseMapper = this.getBaseMapper();
+        List<SpuItemAttrGroupVo> vos
+                =baseMapper.getAttrgroupWithattrByGroupId(skuId,catalogId);
+        return vos;
     }
 
 }

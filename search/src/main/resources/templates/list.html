@@ -399,7 +399,7 @@
 <!--搜索导航-->
 <div class="header_sous">
     <div class="logo">
-        <a href="http://127.0.0.1:10000"><img src="./image/logo1.jpg" alt=""></a>
+        <a href="http://localhost:88/web/"><img src="./image/logo1.jpg" alt=""></a>
     </div>
     <div class="header_form">
         <input id="keyword_input" type="text" placeholder="手机"/>
@@ -1133,10 +1133,18 @@
                 <div class="filter">
                     <!--综合排序-->
                     <div class="filter_top">
-                        <div class="filter_top_left">
-                            <a href="#">综合排序</a>
-                            <a href="#">销量</a>
-                            <a href="#">价格</a>
+                        <div class="filter_top_left" th:with="p=${param.sort}">
+                            <a class="sort_a"
+                               th:attr="style=${(#strings.isEmpty(p) || #strings.startsWith(p,'hotScore'))?'color:#FFF,border-color:#e4393c,background:#e4393c':'color:#333,border-color:#CCC,background:#FFF'}" sort="hotScore"
+                               href="#">综合排序</a>
+                            <a class="sort_a"
+                               th:attr="style=${(!#strings.isEmpty(p) && #strings.startsWith(p,'saleCount'))?'color:#FFF,border-color:#e4393c,background:#e4393c'
+                               :'color:#333,border-color:#CCC,background:#FFF'}" sort="saleCount"
+                               href="#">销量</a>
+                            <a class="sort_a"
+                               th:attr="style=${(!#strings.isEmpty(p) && #strings.startsWith(p,'skuPrice'))?'color:#FFF,border-color:#e4393c,background:#e4393c'
+                               :'color:#333,border-color:#CCC,background:#FFF'}" sort="skuPrice"
+                               href="#">价格</a>
                             <a href="#">评论分</a>
                             <a href="#">上架时间</a>
                         </div>
@@ -1269,7 +1277,7 @@
                                 <a href="#">关注</a>
                             </div>
                             <p class="da">
-                                <a href="#">
+                                <a th:href="|http://localhost:88/web/${product.skuId}.html|">
                                     <img th:src="${product.skuImg}" class="dim">
                                 </a>
                             </p>
@@ -1283,7 +1291,8 @@
 
                             </p>
                             <p class="tab_JE">
-                                <a href="#" th:utext="${product.skuTitle}">
+                                <a th:href="|http://localhost:88/web/${product.skuId}.html|"
+                                   th:utext="${product.skuTitle}">
                                     Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                                 </a>
                             </p>
@@ -2096,7 +2105,7 @@
         var pn=$(this).attr("pn");
         var href=location.href;
         if (href.indexOf('pageNum')>=0){
-            location.href=replaceParamVal(location.href,"pageNum",pn);
+            location.href=replaceOrAddParamVal(location.href,"pageNum",pn);
         } else{
             searchProducts("pageNum",pn);
             // location.href=location.href+"&pageNum"+"="+pn;
@@ -2105,11 +2114,54 @@
     });
 
     //替换指定传入参数的值,paramName为参数,replaceWith为新值
-    function replaceParamVal(url,paramName,replaceWith) {
+    function replaceOrAddParamVal(url,paramName,replaceWith) {
         var oUrl = url.toString();
-        var re=eval('/('+ paramName+'=)([^&]*)/gi');
-        var nUrl = oUrl.replace(re,paramName+'='+replaceWith);
-        return  nUrl;
+        //如果有就替换
+        if (oUrl.indexOf(paramName)>=0){
+            var re=eval('/('+ paramName+'=)([^&]*)/gi');
+            var nUrl = oUrl.replace(re,paramName+'='+replaceWith);
+            return  nUrl;
+        } else {
+            var nUrl="";
+            if (nUrl.indexOf("?") >= 0) {
+                nUrl = oUrl+ "&" + paramName + "=" + replaceWith;
+            } else {
+                nUrl = oUrl+ "?" + paramName + "=" + replaceWith;
+            }
+            return  nUrl;
+        }
+
+
+    }
+    $(".sort_a").click(function (){
+        changeStyle(this);
+        var sort=$(this).attr("sort");
+        sort =$(this).hasClass("desc")?sort+"_desc":sort+"_asc";
+        location.href=replaceOrAddParamVal(location.href,"sort",sort);
+        //禁用默认行为，如a标签点击会跳转。禁用之后就不跳转了
+        return false;
+    })
+    function changeStyle(ele){
+        //默认color:#333,border-color:#CC,"background:#FFF
+        //高亮 color:#FFF,border-color:#e4393c,background:#e4393c
+        $(".sort_a").css({"color":"#333","border-color":"#CCC","background":"#FFF"});
+        $(ele).css({"color":"#FFF","border-color":"#e4393c","background":"#e4393c"});
+        $(ele).toggleClass("desc");
+
+        //先把上下箭头都替换为空,包括被点击的兄弟
+        $(".sort_a").each(function (){
+            //这个this是foreach里的this
+            var text=$(this).text().replace("⬇","").replace("⬆","");
+            $(this).text(text);
+        })
+
+        var text=$(ele).text();
+        if ($(ele).hasClass("desc")){
+            $(ele).text(text+"⬇");
+        } else {
+            $(ele).text(text+"⬆");
+        }
+
     }
 </script>
 </body>

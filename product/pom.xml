@@ -71,6 +71,11 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
 <!--&lt;!&ndash;阿里云对象存储&ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>com.aliyun.oss</groupId>-->

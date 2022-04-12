@@ -3,9 +3,11 @@ package com.tz.mall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tz.common.utils.PageUtils;
 import com.tz.mall.product.entity.SkuInfoEntity;
+import com.tz.mall.product.vo.SkuItemVo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * sku信息
@@ -25,6 +27,8 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     List<SkuInfoEntity> getSkusBySpuId(Long spuId);
 
+
+    SkuItemVo item(Long skuId) throws ExecutionException, InterruptedException;
 
 }
 
