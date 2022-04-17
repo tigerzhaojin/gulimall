@@ -15,7 +15,7 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import to.UserInfoTo;
+import com.tz.mall.cart.to.UserInfoTo;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

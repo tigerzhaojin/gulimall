@@ -3,11 +3,10 @@ package com.tz.mall.cart.interceptor;
 import com.tz.common.constant.AuthServerConstant;
 import com.tz.common.constant.CartConstant;
 import com.tz.common.vo.MemberRespVo;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import to.UserInfoTo;
+import com.tz.mall.cart.to.UserInfoTo;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

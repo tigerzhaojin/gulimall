@@ -1,4 +1,4 @@
-package to;
+package com.tz.mall.cart.to;
 
 import lombok.Data;
 import lombok.ToString;

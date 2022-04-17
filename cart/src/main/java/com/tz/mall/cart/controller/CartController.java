@@ -1,8 +1,6 @@
 package com.tz.mall.cart.controller;
 
 
-import com.tz.common.constant.AuthServerConstant;
-import com.tz.mall.cart.interceptor.CartInterceptor;
 import com.tz.mall.cart.service.CartService;
 import com.tz.mall.cart.vo.Cart;
 import com.tz.mall.cart.vo.CartItem;
@@ -12,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import to.UserInfoTo;
 
-import javax.servlet.http.HttpSession;
 import java.util.concurrent.ExecutionException;
 
 @Controller
