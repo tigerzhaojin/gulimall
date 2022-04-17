@@ -21,6 +21,7 @@
         <module>auth-server</module>
         <module>gateway</module>
         <module>thirdparty</module>
+        <module>cart</module>
     </modules>
 
 

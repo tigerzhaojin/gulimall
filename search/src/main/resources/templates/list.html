@@ -17,7 +17,7 @@
     <div class="header_head_box">
         <b class="header_head_p">
             <div style="overflow: hidden">
-                <a href="http://127.0.0.1:10000" class="header_head_p_a1" style="width:73px;">
+                <a href="http://gulimall.com" class="header_head_p_a1" style="width:73px;">
                     谷粒商城首页
                 </a>
                 <a href="#" class="header_head_p_a">
@@ -64,7 +64,8 @@
         </b>
         <ul>
             <li>
-                <a href="#" class="li_2">你好，请登录</a>
+                <a th:if="${session.loginUser!=null}">欢迎您：[[${session.loginUser.nickname}]]</a>
+                <a th:if="${session.loginUser==null}"  href="http://auth.gulimall.com/login.html">请登录</a>
             </li>
             <li>
                 <a href="#">免费注册</a>
@@ -399,7 +400,7 @@
 <!--搜索导航-->
 <div class="header_sous">
     <div class="logo">
-        <a href="http://localhost:88/web/"><img src="./image/logo1.jpg" alt=""></a>
+        <a href="http://gulimall.com"><img src="./image/logo1.jpg" alt=""></a>
     </div>
     <div class="header_form">
         <input id="keyword_input" type="text" placeholder="手机"/>
@@ -1277,7 +1278,7 @@
                                 <a href="#">关注</a>
                             </div>
                             <p class="da">
-                                <a th:href="|http://localhost:88/web/${product.skuId}.html|">
+                                <a th:href="|http://gulimall.com/${product.skuId}.html|">
                                     <img th:src="${product.skuImg}" class="dim">
                                 </a>
                             </p>
@@ -1291,7 +1292,7 @@
 
                             </p>
                             <p class="tab_JE">
-                                <a th:href="|http://localhost:88/web/${product.skuId}.html|"
+                                <a th:href="|http://gulimall.com/${product.skuId}.html|"
                                    th:utext="${product.skuTitle}">
                                     Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                                 </a>

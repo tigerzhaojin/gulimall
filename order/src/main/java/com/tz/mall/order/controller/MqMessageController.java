@@ -1,8 +1,11 @@
 package com.tz.mall.order.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
+import com.tz.mall.order.entity.OrderReturnReasonEntity;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +33,8 @@ public class MqMessageController {
     @Autowired
     private MqMessageService mqMessageService;
 
+    @Autowired
+    RabbitTemplate rabbitTemplate;
     /**
      * 列表
      */
@@ -79,6 +84,30 @@ public class MqMessageController {
 		mqMessageService.removeByIds(Arrays.asList(messageIds));
 
         return R.ok();
+    }
+
+    @RequestMapping("/sendMsg")
+    public String sendMsg(){
+        for (int i = 0; i < 4; i++) {
+            OrderReturnReasonEntity reasonEntity = new OrderReturnReasonEntity();
+            reasonEntity.setId(2L);
+            reasonEntity.setCreateTime(new Date());
+            reasonEntity.setName("chris"+i);
+            rabbitTemplate.convertAndSend("hello-java-exchange","hello.java",reasonEntity);
+        }
+        return "ok";
+    }
+
+    @RequestMapping("/sendErrMsg")
+    public String sendErrMsg(){
+        for (int i = 0; i < 2; i++) {
+            OrderReturnReasonEntity reasonEntity = new OrderReturnReasonEntity();
+            reasonEntity.setId(2L);
+            reasonEntity.setCreateTime(new Date());
+            reasonEntity.setName("chris"+i);
+            rabbitTemplate.convertAndSend("hello-java-exchange","hello.java1",reasonEntity);
+        }
+        return "ok";
     }
 
 }

@@ -1,0 +1,28 @@
+spring:
+
+  application:
+    name: gulimall-cart
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+#  spring指定格式化转换
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+#  开发期间，将缓存置为false
+  thymeleaf:
+    cache: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: Tiger1023
+
+server:
+  port: 30000
+
+
+
+
+
+

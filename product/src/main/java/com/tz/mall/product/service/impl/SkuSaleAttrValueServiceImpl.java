@@ -1,6 +1,7 @@
 package com.tz.mall.product.service.impl;
 
 import com.tz.mall.product.vo.SkuItemSaleAttrVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +35,13 @@ public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao
         SkuSaleAttrValueDao baseMapper = this.getBaseMapper();
         List<SkuItemSaleAttrVo> saleAttrVos=baseMapper.getSaleAttrsBySpuId(spuId);
         return saleAttrVos;
+    }
+
+    @Override
+    public List<String> getSkuSaleAttrValuesAsList(Long skuId) {
+//        可以直接使用Dao
+        SkuSaleAttrValueDao baseMapper = this.baseMapper;
+        return baseMapper.getSkuSaleAttrValuesAsList(skuId);
     }
 
 }

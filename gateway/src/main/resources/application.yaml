@@ -81,13 +81,23 @@ spring:
           uri: lb://auth-server
           predicates:
             - Host=auth.gulimall.com
-
+#        购物车 Nginx路由.
+        - id: cart_host
+          uri: lb://gulimall-cart
+          predicates:
+            - Host=cart.gulimall.com
+#        订单 Nginx路由.
+        - id: order_host
+          uri: lb://gulimall-order
+          predicates:
+            - Host=order.gulimall.com
 #        商品WEB Nginx路由.这段写在最后面，以防覆盖掉前面的其他配置路由
         - id: product_host
           uri: lb://gulimall-product
           predicates:
             - Host=gulimall.com
-  #
+
+  #gulimall-cart
   application:
     name: gulimall-gateway
 server:

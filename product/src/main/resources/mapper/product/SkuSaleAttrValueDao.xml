@@ -37,6 +37,10 @@
             spu_id = #{spuId} group by saav.attr_id,saav.attr_name,saav.attr_value
 
     </select>
+    <select id="getSkuSaleAttrValuesAsList" resultType="java.lang.String">
+        select CONCAT(attr_name,'：',attr_value,'  ') from pms_sku_sale_attr_value
+            where sku_id=#{skuId}
+    </select>
 
 
 </mapper>
