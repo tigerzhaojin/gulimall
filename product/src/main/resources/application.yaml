@@ -2,25 +2,11 @@ spring:
   session:
     store-type: redis
   datasource:
-    druid:
-      driver-class-name: com.mysql.jdbc.Driver
-      username: root
-      password: 12345678
-      url: jdbc:mysql://localhost:3306/gulimall_pms?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-      filters: stat,wall
-      stat-view-servlet:
-        enabled: true
-        login-username: admin
-        login-password: admin
-      filter:
-        stat: # 对上面filters里面的stat的详细配置
-          slow-sql-millis: 1000
-          logSlowSql: true
-          enabled: true
-        wall:
-          enabled: true
-          config:
-      max-wait: 10000
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 12345678
+    url: jdbc:mysql://localhost:3306/gulimall_pms?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+
   application:
     name: gulimall-product
   cloud:

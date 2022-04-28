@@ -52,12 +52,14 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
 //        获取消息tag
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
 //        挨个确认收到消息，在服务器端删除
-        if(deliveryTag%2==0){
-            channel.basicAck(deliveryTag,false);
-            System.out.println("签收："+deliveryTag);
-        } else {
-            System.out.println("没有签收："+deliveryTag);
-        }
+        channel.basicAck(deliveryTag,false);
+        System.out.println("签收："+deliveryTag);
+//        if(deliveryTag%2==0){
+//            channel.basicAck(deliveryTag,false);
+//            System.out.println("签收："+deliveryTag);
+//        } else {
+//            System.out.println("没有签收："+deliveryTag);
+//        }
 
 //        Thread.sleep(3000);
     }

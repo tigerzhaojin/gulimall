@@ -2,6 +2,7 @@ package com.tz.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tz.common.utils.PageUtils;
+import com.tz.mall.product.entity.SkuInfoEntity;
 import com.tz.mall.product.entity.SpuInfoDescEntity;
 import com.tz.mall.product.entity.SpuInfoEntity;
 import com.tz.mall.product.vo.SpuSaveVo;
@@ -27,6 +28,8 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     PageUtils queryPageByCondition(Map<String, Object> params);
     //    商品上架
     void spuUp(Long spuId);
+
+    SpuInfoEntity getSpuInfobySkuId(Long skuId);
 
 }
 

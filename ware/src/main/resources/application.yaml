@@ -1,10 +1,9 @@
 spring:
   datasource:
-    druid:
-      driver-class-name: com.mysql.jdbc.Driver
-      username: root
-      password: 12345678
-      url: jdbc:mysql://127.0.0.1:3306/gulimall_wms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 12345678
+    url: jdbc:mysql://127.0.0.1:3306/gulimall_wms?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
   cloud:
     nacos:
       discovery:
@@ -23,7 +22,8 @@ mybatis-plus:
       id-type: auto
 server:
   port: 11000
-  #  打印日志
+#  打印日志
 logging:
   level:
-    com.tz.mall: debug
+    com.tz.mall.ware: debug
+

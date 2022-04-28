@@ -3,6 +3,7 @@ package com.tz.mall.cart.vo;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,8 +12,16 @@ import java.util.List;
  * */
 
 @ToString
-public class CartItem {
+public class CartItem implements Serializable {
     private long skuId;
+    private Boolean check=true;
+    private String title;
+    private String image;
+    //    商品套餐信息
+    private List<String> skuAttr;
+    private BigDecimal price;
+    private Integer count;
+    private BigDecimal totalPrice;
 
     public long getSkuId() {
         return skuId;
@@ -79,13 +88,6 @@ public class CartItem {
         this.totalPrice = totalPrice;
     }
 
-    private Boolean check=true;
-    private String title;
-    private String image;
-//    商品套餐信息
-    private List<String> skuAttr;
-    private BigDecimal price;
-    private Integer count;
-    private BigDecimal totalPrice;
+
 
 }

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.tz.mall.ware.dao.WareSkuDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.tz.mall.ware.entity.WareSkuEntity" id="wareSkuMap">
         <result property="id" column="id"/>
         <result property="skuId" column="sku_id"/>
@@ -12,13 +12,37 @@
         <result property="skuName" column="sku_name"/>
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
-<!--    @Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("skuNum") Integer skuNum-->
+    <!--    @Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("skuNum") Integer skuNum-->
     <update id="addStock">
-        update wms_ware_sku set stock=stock+#{skuNum} where sku_id=#{skuId} and ware_id=#{wareId}
+        update wms_ware_sku
+        set stock=stock + #{skuNum}
+        where sku_id = #{skuId}
+          and ware_id = #{wareId}
     </update>
-<!--    Long getSkuStock(@Param("skuId") Long skuId);-->
+    <update id="lockSkuStock">
+        update wms_ware_sku
+        set stock_locked=stock_locked + #{num}
+        where ware_id = #{wareId}
+          and (stock - stock_locked) > #{num}
+          AND sku_id = #{skuId}
+    </update>
+    <update id="unLockStock">
+        update wms_ware_sku
+        set stock_locked=stock_locked - #{num}
+        where sku_Id = #{skuId}
+          and ware_id = #{wareId}
+    </update>
+    <!--    Long getSkuStock(@Param("skuId") Long skuId);-->
     <select id="getSkuStock" resultType="Long">
-        select sum(stock-stock_locked) from wms_ware_sku where sku_id=#{skuId}
+        select sum(stock - stock_locked)
+        from wms_ware_sku
+        where sku_id = #{skuId}
+    </select>
+    <select id="listWareIdHasStock" resultType="java.lang.Long">
+        select ware_id
+        from wms_ware_sku
+        where sku_id = #{skuId}
+          and (stock - stock_locked) > 0
     </select>
 
 

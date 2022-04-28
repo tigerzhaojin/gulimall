@@ -3,6 +3,7 @@ package com.tz.mall.cart.service;
 import com.tz.mall.cart.vo.Cart;
 import com.tz.mall.cart.vo.CartItem;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public interface CartService {
@@ -25,4 +26,8 @@ public interface CartService {
 
 //    删除商品
     void deleteItem(Long skuId);
+
+    List<CartItem> getUserCartItems();
+
+
 }

@@ -44,7 +44,7 @@ public class ProductApplicationTests {
     @Autowired
     SkuSaleAttrValueService saleAttrValueService;
 
-//    测试redis
+    //    测试redis
     @Test
     public void redisTest(){
         ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();

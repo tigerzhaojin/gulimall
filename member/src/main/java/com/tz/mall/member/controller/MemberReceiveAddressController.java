@@ -1,6 +1,7 @@
 package com.tz.mall.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,13 @@ public class MemberReceiveAddressController {
     @Autowired
     private MemberReceiveAddressService memberReceiveAddressService;
 
+    @RequestMapping("{memeberID}/addresses")
+    public List<MemberReceiveAddressEntity> getAddresses(@PathVariable("memeberID") Long memeberID){
+
+        List<MemberReceiveAddressEntity> addresses=
+                memberReceiveAddressService.getMemberAddressByID(memeberID);
+        return addresses;
+    }
     /**
      * 列表
      */
