@@ -1,6 +1,7 @@
 package com.tz.mall.cart.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tz.common.utils.R;
 import com.tz.mall.cart.feign.ProductFeignService;
@@ -46,9 +47,10 @@ public class CartServiceImpl implements CartService {
             CompletableFuture<Void> skuInfoTask = CompletableFuture.runAsync(() -> {
                 //     1. 远程查询商品的详细信息
                 R info = productFeignService.info(skuId);
-                Object data = info.get("skuInfo");
-                ObjectMapper objectMapper = new ObjectMapper();
-                SkuInfoVo skuInfo = objectMapper.convertValue(data, SkuInfoVo.class);
+//                Object data = info.get("skuInfo");
+//                ObjectMapper objectMapper = new ObjectMapper();
+//                SkuInfoVo skuInfo = objectMapper.convertValue(data, SkuInfoVo.class);
+                SkuInfoVo skuInfo = info.getData(new TypeReference<SkuInfoVo>(){});
 
 //     2. 商品添加到购物车
                 cartItem.setCheck(true);

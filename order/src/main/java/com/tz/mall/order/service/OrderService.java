@@ -5,6 +5,7 @@ import com.tz.common.utils.PageUtils;
 import com.tz.mall.order.entity.OrderEntity;
 import com.tz.mall.order.vo.OrderConfirmVo;
 import com.tz.mall.order.vo.OrderSubmitVo;
+import com.tz.mall.order.vo.PayVo;
 import com.tz.mall.order.vo.SubmitOrderResponseVo;
 
 import java.util.Map;
@@ -28,6 +29,8 @@ public interface OrderService extends IService<OrderEntity> {
     OrderEntity getOrderBySn(String orderSn);
 
     void closeOrder(OrderEntity orderEntity);
+
+    PayVo getOrderPay(String orderSn);
 
 }
 

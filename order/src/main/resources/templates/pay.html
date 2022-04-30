@@ -13,7 +13,7 @@
         <ul>
           <li><span>[[${session.loginUser}==null?'':${session.loginUser.nickname}]]</span><span>退出</span></li>
           <li>我的订单</li>
-          <li>支付帮助</li>
+          <li><span> 测试账户：msrjxw8845@sandbox.com</span></li>
         </ul>
       </div>
       <div class="Jdbox_BuySuc">
@@ -22,6 +22,7 @@
           <dd>
             <span>订单提交成功，请尽快付款！订单号：[[${submitOrderResp.order.orderSn}]]</span>
             <span>应付金额<font>[[${submitOrderResp.order.payAmount}]]</font>元</span>
+
           </dd>
           <dd>
             <span>推荐使用</span>
@@ -100,13 +101,14 @@
             <img src="pay/img/weixin.png" alt="">微信支付
           </li>
 		  <li>
-            <img src="pay/img/zhifubao.png" style="weight:auto;height:30px;" alt="">支付宝
+            <img src="pay/img/zhifubao.png" style="weight:auto;height:30px;" alt="">
+            <a th:href="'http://order.gulimall.com/payOrder?orderSn='+${submitOrderResp.order.orderSn}">支付宝</a>
           </li>
         </ul>
       </div>
       <div class="Jd_foots">
         <p>
-          <span>Copyright @2004-2017 谷粒学院gulimall.com 版权所有</span>
+          <span>Copyright @2004-2017  版权所有</span>
           <span>
             <img src="pay/img/foots.png" alt="">
           </span>

@@ -1,6 +1,7 @@
 package com.tz.mall.ware.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tz.common.utils.R;
 import com.tz.common.vo.MemberRespVo;
@@ -49,10 +50,13 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
     @Override
     public FareVo getFare(Long addrId) {
         FareVo fareVo = new FareVo();
+//        R info1 = memberFeignService.info(addrId);
         R info = memberFeignService.info(addrId);
-        Object data = info.get("memberReceiveAddress");
-        ObjectMapper objectMapper = new ObjectMapper();
-        MemberAddressVo memberAddressVo = objectMapper.convertValue(data, MemberAddressVo.class);
+//        Object data = info.get("memberReceiveAddress");
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        MemberAddressVo memberAddressVo = objectMapper.convertValue(data, MemberAddressVo.class);
+        MemberAddressVo memberAddressVo = info.getData(new TypeReference<MemberAddressVo>() {
+        });
         if (memberAddressVo!=null){
             String phone = memberAddressVo.getPhone();
 

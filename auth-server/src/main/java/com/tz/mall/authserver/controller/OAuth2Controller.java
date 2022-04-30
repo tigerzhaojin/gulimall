@@ -2,6 +2,7 @@ package com.tz.mall.authserver.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tz.common.utils.HttpUtils;
 import com.tz.common.to.SocialUserVo;
@@ -70,10 +71,13 @@ public class OAuth2Controller {
             gitVo.setUname(login);
             R authLogin = memberFeignService.login(gitVo);
             Object data = authLogin.get("data");
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            MemberRespVo respVo = objectMapper.convertValue(data, MemberRespVo.class);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//
+//            MemberRespVo respVo = objectMapper.convertValue(data, MemberRespVo.class);
             System.out.println("登陆成功，用户信息："+data);
+            MemberRespVo respVo = authLogin.getData(new TypeReference<MemberRespVo>() {
+            });
+
 //           子域之间,  gulimall.com, auth.gulimall.com, search.gulimall.com ....
 //           发卡的时候指定域名，即使是子域名签发的，也能让父域直接使用，就解决了session共享的问题
             httpSession.setAttribute("loginUser",respVo);

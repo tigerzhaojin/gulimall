@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@FeignClient("guli-member")
+@FeignClient("gulimall-member")
 public interface MemberFeignService {
 //    member/memberreceiveaddress/{memeberID}/addresses
     @RequestMapping("/member/memberreceiveaddress/{memeberID}/addresses")

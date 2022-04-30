@@ -39,7 +39,7 @@ spring:
 
 #        会员路由
         - id: member_route
-          uri: lb://guli-member
+          uri: lb://gulimall-member
           predicates:
             - Path=/api/member/**
           filters:
@@ -91,6 +91,11 @@ spring:
           uri: lb://gulimall-order
           predicates:
             - Host=order.gulimall.com
+#        会员 Nginx路由.
+        - id: member_host
+          uri: lb://gulimall-member
+          predicates:
+            - Host=member.gulimall.com
 #        商品WEB Nginx路由.这段写在最后面，以防覆盖掉前面的其他配置路由
         - id: product_host
           uri: lb://gulimall-product

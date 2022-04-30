@@ -1,5 +1,6 @@
 package com.tz.mall.authserver.controller;
 
+import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tz.common.constant.AuthServerConstant;
 import com.tz.common.utils.R;
@@ -46,8 +47,9 @@ public class IndexController {
         if (login.getCode()==0){
             Object data = login.get("data");
 //            登陆成功，放到session中
-            ObjectMapper objectMapper = new ObjectMapper();
-            MemberRespVo respVo = objectMapper.convertValue(data, MemberRespVo.class);
+            MemberRespVo respVo = login.getData(new TypeReference<MemberRespVo>() {});
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            MemberRespVo respVo = objectMapper.convertValue(data, MemberRespVo.class);
             session.setAttribute(AuthServerConstant.LOGIN_USER,respVo);
             return "redirect:http://gulimall.com";
         } else {
