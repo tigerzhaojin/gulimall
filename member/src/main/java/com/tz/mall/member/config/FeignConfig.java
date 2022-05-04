@@ -13,18 +13,25 @@ import javax.servlet.http.HttpServletRequest;
 public class FeignConfig {
     @Bean("requestInterceptor")
     public RequestInterceptor requestInterceptor() {
-        return (template) -> {
-            // RequestContextHolder拿到刚进来这个请求
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-            if(request != null){
-                // 同步请求头数据
-                String cookie = request.getHeader("Cookie");
-                // 给新请求同步Cookie
-                template.header("Cookie", cookie);
+        return new RequestInterceptor() {
+            @Override
+            public void apply(RequestTemplate template) {
+                //拿到 刚进来的远程请求
+                ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+                if (attributes != null) {
+                    HttpServletRequest request = attributes.getRequest();
+//               同步请求头数据,cookie
+
+                    String cookie = request.getHeader("Cookie");
+//                给新请求，同步了老请求的cookie
+                    template.header("Cookie", cookie);
+                }
+
+
             }
         };
 
     }
+
 
 }

@@ -78,7 +78,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     ProductFeignService productFeignService;
 
 
-
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderEntity> page = this.page(
@@ -88,7 +87,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
         return new PageUtils(page);
     }
-//    to trade
+
+    //    to trade
     @Override
     public OrderConfirmVo orderConfirm() throws ExecutionException, InterruptedException {
         OrderConfirmVo orderConfirmVo = new OrderConfirmVo();
@@ -143,7 +143,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return orderConfirmVo;
     }
 
-//    @GlobalTransactional 效果不好，用mq代替
+    //    @GlobalTransactional 效果不好，用mq代替
     @Transactional
     @Override
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo submitVo) {
@@ -170,7 +170,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             OrderCreateTo order = createOrder();
             BigDecimal payAmount = order.getOrder().getPayAmount();
             BigDecimal payPrcie = submitVo.getPayPrcie();
-            if (Math.abs(payAmount.subtract(payPrcie).doubleValue())<0.01){
+            if (Math.abs(payAmount.subtract(payPrcie).doubleValue()) < 0.01) {
                 saveOrder(order);
 //          lock the inventory for order
                 WareSkuLockVo lockVo = new WareSkuLockVo();
@@ -186,12 +186,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 R r = wmsFeignService.lockWare(lockVo);
 //                order rollback, stock dosen't roll back
 //                Integer i=10/0;
-                if (r.getCode()==0){
+                if (r.getCode() == 0) {
 //                    lock success
                     orderResponseVo.setOrder(order.getOrder());
 //                    库存锁定成功，可以认为整体订单已经创建完成
                     rabbitTemplate.convertAndSend("order-event-exchange",
-                            "order.create.order",order.getOrder());
+                            "order.create.order", order.getOrder());
                     return orderResponseVo;
                 } else {
 //                    lock failue
@@ -221,13 +221,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public void closeOrder(OrderEntity orderEntity) {
 //        先查询当前订单的状态
         OrderEntity entity = this.getById(orderEntity.getId());
-        if (entity.getStatus()==OrderStatusEnume.CREATE_NEW.getCode()){
+        if (entity.getStatus() == OrderStatusEnume.CREATE_NEW.getCode()) {
             entity.setStatus(OrderStatusEnume.CANCLED.getCode());
             this.updateById(entity);
             OrderTo orderTo = new OrderTo();
-            BeanUtils.copyProperties(entity,orderTo);
+            BeanUtils.copyProperties(entity, orderTo);
             rabbitTemplate.convertAndSend("order-event-exchange",
-                    "order.release.other",orderTo);
+                    "order.release.other", orderTo);
         }
     }
 
@@ -243,6 +243,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         payVo.setSubject(itemEntity.getSkuName());
         payVo.setBody(itemEntity.getSkuAttrsVals());
         return payVo;
+    }
+
+    @Override
+    public PageUtils queryPageWithItem(Map<String, Object> params) {
+        MemberRespVo memberRespVo = UserLoginInterceptor.loginUser.get();
+        IPage<OrderEntity> page = this.page(
+                new Query<OrderEntity>().getPage(params),
+                new QueryWrapper<OrderEntity>().eq("member_id",memberRespVo.getId()).orderByDesc("id")
+        );
+        List<OrderEntity> order_sn = page.getRecords().stream().map(order -> {
+            List<OrderItemEntity> itemEntities = orderItemService.list
+                    (new QueryWrapper<OrderItemEntity>().eq("order_sn", order.getOrderSn()));
+            order.setItemEntities(itemEntities);
+            return order;
+        }).collect(Collectors.toList());
+        page.setRecords(order_sn);
+        return new PageUtils(page);
+
     }
 
     private void saveOrder(OrderCreateTo order) {
@@ -293,14 +311,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         BigDecimal coupon = new BigDecimal("0");
         BigDecimal integration = new BigDecimal("0");
         BigDecimal promotion = new BigDecimal("0");
-        Integer giftIntegration =0;
-        Integer giftGrowth=0;
+        Integer giftIntegration = 0;
+        Integer giftGrowth = 0;
 //        totalAmout of oder
         for (OrderItemEntity itemEntity : itemEntities) {
-            total=total.add(itemEntity.getRealAmount());
-            coupon=coupon.add(itemEntity.getCouponAmount());
+            total = total.add(itemEntity.getRealAmount());
+            coupon = coupon.add(itemEntity.getCouponAmount());
             integration = integration.add(itemEntity.getIntegrationAmount());
-            promotion =promotion.add(itemEntity.getPromotionAmount());
+            promotion = promotion.add(itemEntity.getPromotionAmount());
             giftIntegration += itemEntity.getGiftIntegration();
             giftGrowth += itemEntity.getGiftGrowth();
         }
@@ -342,7 +360,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 //        1.spu Information
         R r = productFeignService.getSpuInfobySkuId(skuId);
         Object o = r.get("spuInfo");
-        SpuInfoVo spuInfoVo =objectMapper.convertValue(o, SpuInfoVo.class);
+        SpuInfoVo spuInfoVo = objectMapper.convertValue(o, SpuInfoVo.class);
         itemEntity.setSpuId(spuInfoVo.getId());
         itemEntity.setSpuBrand(spuInfoVo.getBrandId().toString());
         itemEntity.setSpuName(spuInfoVo.getSpuName());
@@ -371,19 +389,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
 
-//    代理对象示例
+    //    代理对象示例
     @Transactional
-    public void a (){
+    public void a() {
         OrderServiceImpl orderService = (OrderServiceImpl) AopContext.currentProxy();
         orderService.b();
         orderService.c();
     }
+
     @Transactional(propagation = Propagation.REQUIRED)
-    public void b (){
+    public void b() {
 
     }
-    @Transactional(propagation = Propagation.REQUIRES_NEW,timeout = 20)
-    public void c (){
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, timeout = 20)
+    public void c() {
 
     }
 }
