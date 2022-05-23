@@ -21,6 +21,7 @@ public class OrderReleaseListener {
         System.out.println("接收到订单信息,准备关单：" + orderEntity.getOrderSn() + "  " + orderEntity.getModifyTime());
         try {
             orderService.closeOrder(orderEntity);
+
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
         } catch (Exception e){

@@ -12,4 +12,4 @@ spring:
     name: third-party
 
 server:
-  port: 30000
+  port: 30100
